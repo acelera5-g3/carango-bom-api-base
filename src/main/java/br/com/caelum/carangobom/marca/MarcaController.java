@@ -1,5 +1,8 @@
 package br.com.caelum.carangobom.marca;
 
+import br.com.caelum.carangobom.marca.dtos.MarcaDto;
+import br.com.caelum.carangobom.marca.entities.Marca;
+import br.com.caelum.carangobom.mappers.MapStructMapper;
 import br.com.caelum.carangobom.validacao.ErroDeParametroOutputDto;
 import br.com.caelum.carangobom.validacao.ListaDeErrosOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,50 +23,50 @@ import java.util.Optional;
 @Controller
 public class MarcaController {
 
-    private MarcaRepository mr;
+    private final MapStructMapper mapper;
+    private final MarcaRepository repository;
 
     @Autowired
-    public MarcaController(MarcaRepository mr) {
-        this.mr = mr;
+    public MarcaController(
+            MapStructMapper mapper,
+            MarcaRepository repository
+    ) {
+        this.mapper = mapper;
+        this.repository = repository;
     }
 
     @GetMapping("/marcas")
     @ResponseBody
     @Transactional
-    public List<Marca> lista() {
-        return mr.findAllByOrderByNome();
+    public ResponseEntity<List<MarcaDto>> lista() {
+        return ResponseEntity.ok().body(mapper.marcasToMarcasDtos(repository.findAll()));
     }
 
     @GetMapping("/marcas/{id}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Marca> id(@PathVariable Long id) {
-        Optional<Marca> m1 = mr.findById(id);
-        if (m1.isPresent()) {
-            return ResponseEntity.ok(m1.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<MarcaDto> id(@PathVariable Long id) {
+        Optional<Marca> m1 = repository.findById(id);
+        return m1.map(marca -> ResponseEntity.ok(mapper.marcaToMarcaDto(marca))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/marcas")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Marca> cadastra(@Valid @RequestBody Marca m1, UriComponentsBuilder uriBuilder) {
-        Marca m2 = mr.save(m1);
-        URI h = uriBuilder.path("/marcas/{id}").buildAndExpand(m1.getId()).toUri();
-        return ResponseEntity.created(h).body(m2);
+    public ResponseEntity<MarcaDto> cadastra(@Valid @RequestBody MarcaDto request, UriComponentsBuilder uriBuilder) {
+        Marca marca = repository.save(mapper.marcaDtoToMarca(request));
+        URI h = uriBuilder.path("/marcas/{id}").buildAndExpand(request.getId()).toUri();
+        return ResponseEntity.created(h).body(mapper.marcaToMarcaDto(marca));
     }
 
     @PutMapping("/marcas/{id}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Marca> altera(@PathVariable Long id, @Valid @RequestBody Marca m1) {
-        Optional<Marca> m2 = mr.findById(id);
-        if (m2.isPresent()) {
-            Marca m3 = m2.get();
-            m3.setNome(m1.getNome());
-            return ResponseEntity.ok(m3);
+    public ResponseEntity<MarcaDto> altera(@PathVariable Long id, @Valid @RequestBody MarcaDto request) {
+        Optional<Marca> marca = repository.findById(id);
+        if (marca.isPresent()) {
+            marca.get().setNome(request.getNome());
+            return ResponseEntity.ok(mapper.marcaToMarcaDto(marca.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -72,12 +75,11 @@ public class MarcaController {
     @DeleteMapping("/marcas/{id}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Marca> deleta(@PathVariable Long id) {
-        Optional<Marca> m1 = mr.findById(id);
-        if (m1.isPresent()) {
-            Marca m2 = m1.get();
-            mr.delete(m2);
-            return ResponseEntity.ok(m2);
+    public ResponseEntity<MarcaDto> deleta(@PathVariable Long id) {
+        Optional<Marca> marca = repository.findById(id);
+        if (marca.isPresent()) {
+            repository.delete(marca.get());
+            return ResponseEntity.ok(mapper.marcaToMarcaDto(marca.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
