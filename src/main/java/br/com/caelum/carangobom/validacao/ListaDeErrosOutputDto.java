@@ -1,7 +1,10 @@
 package br.com.caelum.carangobom.validacao;
 
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 
+@AllArgsConstructor
 public class ListaDeErrosOutputDto {
 
     private List<ErroDeParametroOutputDto> erros;

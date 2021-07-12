@@ -1,8 +1,8 @@
 package br.com.caelum.carangobom.marca;
 
+import br.com.caelum.carangobom.mappers.MapStructMapper;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import br.com.caelum.carangobom.marca.entities.Marca;
-import br.com.caelum.carangobom.mappers.MapStructMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,9 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -62,7 +60,7 @@ class MarcaControllerTest {
         when(marcaRepository.findById(1L))
             .thenReturn(Optional.of(audi));
 
-        ResponseEntity<MarcaDto> resposta = marcaController.id(1L);
+        ResponseEntity<MarcaDto> resposta = marcaController.recuperarMarca(1L);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
@@ -71,7 +69,7 @@ class MarcaControllerTest {
         when(marcaRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
-        ResponseEntity<MarcaDto> resposta = marcaController.id(1L);
+        ResponseEntity<MarcaDto> resposta = marcaController.recuperarMarca(1L);
         assertEquals(HttpStatus.NOT_FOUND, resposta.getStatusCode());
     }
 
@@ -84,7 +82,7 @@ class MarcaControllerTest {
         when(marcaRepository.save(mapper.marcaDtoToMarca(nova)))
             .thenReturn(marcaSalva);
 
-        ResponseEntity<MarcaDto> resposta = marcaController.cadastra(nova, uriBuilder);
+        ResponseEntity<MarcaDto> resposta = marcaController.cadastrarMarca(nova, uriBuilder);
         assertEquals(HttpStatus.CREATED, resposta.getStatusCode());
     }
 
@@ -96,7 +94,7 @@ class MarcaControllerTest {
         when(marcaRepository.findById(1L))
             .thenReturn(Optional.of(audi));
 
-        ResponseEntity<MarcaDto> resposta = marcaController.altera(1L, dto);
+        ResponseEntity<MarcaDto> resposta = marcaController.alterarNomeMarca(1L, dto);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
@@ -107,7 +105,7 @@ class MarcaControllerTest {
         when(marcaRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
-        ResponseEntity<MarcaDto> resposta = marcaController.altera(1L, dto);
+        ResponseEntity<MarcaDto> resposta = marcaController.alterarNomeMarca(1L, dto);
         assertEquals(HttpStatus.NOT_FOUND, resposta.getStatusCode());
     }
 
