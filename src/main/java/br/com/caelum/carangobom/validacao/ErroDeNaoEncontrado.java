@@ -11,5 +11,7 @@ import javax.persistence.EntityNotFoundException;
 public class ErroDeNaoEncontrado {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
-    public void validacao(EntityNotFoundException exception) {}
+    public EntityNotFoundException validacao(EntityNotFoundException exception) {
+        return null;
+    }
 }

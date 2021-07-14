@@ -1,7 +1,6 @@
 package br.com.caelum.carangobom.marca;
 
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,16 +24,13 @@ class MarcaControllerTest {
     private UriComponentsBuilder uriBuilder;
 
     @Mock
-    private MarcaMapper mapper;
-
-    @Mock
     private MarcaService service;
 
     @BeforeEach
     public void configuraMock() {
         openMocks(this);
 
-        marcaController = new MarcaController(mapper, service);
+        marcaController = new MarcaController(service);
         uriBuilder = UriComponentsBuilder.fromUriString("http://localhost:8080");
     }
 

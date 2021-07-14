@@ -1,9 +1,8 @@
 package br.com.caelum.carangobom.marca.mappers;
 
-import br.com.caelum.carangobom.marca.entities.Marca;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
+import br.com.caelum.carangobom.marca.entities.Marca;
 import org.mapstruct.Mapper;
-import org.springframework.context.annotation.Bean;
 
 @Mapper(
         componentModel = "spring"

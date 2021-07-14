@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebMvcTest(CarangoBomApiApplication.class)
 @AutoConfigureMockMvc
 @ContextConfiguration
-public class MarcaRestTest {
+class MarcaRestTest {
 
     @Autowired
     private MockMvc mockMvc;

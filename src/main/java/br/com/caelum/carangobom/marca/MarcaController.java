@@ -1,7 +1,6 @@
 package br.com.caelum.carangobom.marca;
 
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +15,12 @@ import java.net.URI;
 @Transactional
 @RequestMapping("/marcas")
 public class MarcaController {
-
-    private final MarcaMapper mapper;
     private final MarcaService service;
 
     @Autowired
     public MarcaController(
-            MarcaMapper mapper,
             MarcaService service
     ) {
-        this.mapper = mapper;
         this.service = service;
     }
 
