@@ -74,7 +74,7 @@ class MarcaServiceTest {
 
         when(repository.findAll()).thenReturn(list);
 
-        Iterable<MarcaDto> res = service.buscarTodos();
+        Iterable<MarcaDto> res = service.buscarTodos(1,1);
 
         assertEquals(((List<MarcaDto>) res).get(0).getId(), list.get(0).getId());
     }

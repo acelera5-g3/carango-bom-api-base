@@ -26,8 +26,11 @@ public class MarcaController {
 
     @GetMapping()
     @ApiOperation("Recupera uma lista de marcas")
-    public ResponseEntity<Iterable<MarcaDto>> listarMarcas() {
-        return ResponseEntity.ok().body(service.buscarTodos());
+    public ResponseEntity<Iterable<MarcaDto>> listarMarcas(
+            @RequestParam(required = false, defaultValue = "0") int pagina,
+            @RequestParam(required = false, defaultValue = "10") int quantidade
+            ) {
+        return ResponseEntity.ok().body(service.buscarTodos(pagina, quantidade));
     }
 
     @GetMapping("/{id}")

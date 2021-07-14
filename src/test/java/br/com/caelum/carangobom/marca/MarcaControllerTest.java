@@ -4,17 +4,17 @@ import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -36,16 +36,14 @@ class MarcaControllerTest {
 
     @Test
     void deveRetornarListaQuandoHouverResultados() {
-        List<MarcaDto> marcas = List.of(
-            new MarcaDto(1L, "Audi"),
-            new MarcaDto(2L, "BMW"),
-            new MarcaDto(3L, "Fiat")
-        );
 
-        when(service.buscarTodos())
+        @SuppressWarnings("unchecked")
+        Page<MarcaDto> marcas = mock(Page.class);
+
+        when(service.buscarTodos(anyInt(), anyInt()))
             .thenReturn(marcas);
 
-        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.listarMarcas();
+        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.listarMarcas(1,1);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
     }
 
