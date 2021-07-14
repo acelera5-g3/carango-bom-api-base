@@ -45,7 +45,7 @@ class MarcaControllerTest {
         when(service.buscarTodos())
             .thenReturn(marcas);
 
-        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.lista();
+        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.listarMarcas();
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
     }
 
@@ -85,7 +85,7 @@ class MarcaControllerTest {
         when(service.buscar(1L))
             .thenReturn(dto);
 
-        ResponseEntity<MarcaDto> resposta = marcaController.alterarNomeMarca(1L, dto);
+        ResponseEntity<MarcaDto> resposta = marcaController.atualizarMarca(1L, dto);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
@@ -95,7 +95,7 @@ class MarcaControllerTest {
 
         when(service.atualizar(anyLong(), any(MarcaDto.class))).thenThrow(new EntityNotFoundException());
 
-        assertThrows(EntityNotFoundException.class, () -> marcaController.alterarNomeMarca(1L, dto));
+        assertThrows(EntityNotFoundException.class, () -> marcaController.atualizarMarca(1L, dto));
     }
 
     @Test
@@ -105,14 +105,14 @@ class MarcaControllerTest {
         when(service.buscar(1L))
             .thenReturn(audi);
 
-        ResponseEntity<MarcaDto> resposta = marcaController.deleta(1L);
+        ResponseEntity<MarcaDto> resposta = marcaController.apagarMarca(1L);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
     @Test
     void naoDeveDeletarMarcaInexistente() throws EntityNotFoundException {
-        when(service.deleta(anyLong())).thenThrow(new EntityNotFoundException());
-        assertThrows(EntityNotFoundException.class, () -> marcaController.deleta(1L));
+        when(service.apagar(anyLong())).thenThrow(new EntityNotFoundException());
+        assertThrows(EntityNotFoundException.class, () -> marcaController.apagarMarca(1L));
     }
 
 }

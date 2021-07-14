@@ -1,16 +1,11 @@
 package br.com.caelum.carangobom.marca;
 
-import br.com.caelum.carangobom.CarangoBomApiApplication;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import br.com.caelum.carangobom.marca.entities.Marca;
 import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityNotFoundException;
@@ -113,7 +108,7 @@ class MarcaServiceTest {
 
         doNothing().when(repository).delete(any(Marca.class));
 
-        service.deleta(1L);
+        service.apagar(1L);
 
         verify(repository, times(1)).delete(marca);
 

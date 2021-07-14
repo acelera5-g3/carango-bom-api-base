@@ -1,5 +1,6 @@
 package br.com.caelum.carangobom.marca;
 
+import br.com.caelum.carangobom.CrudService;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 @Validated
-public class MarcaService {
+public class MarcaService implements CrudService<MarcaDto> {
 
     private final MarcaRepository repository;
     private final MarcaMapper mapper;
@@ -24,27 +25,27 @@ public class MarcaService {
         this.mapper = mapper;
     }
 
-    MarcaDto buscar(Long id) throws EntityNotFoundException {
+    public MarcaDto buscar(Long id) throws EntityNotFoundException {
         return repository.findById(id)
                 .map(mapper::marcaToMarcaDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    Iterable<MarcaDto> buscarTodos() {
+    public Iterable<MarcaDto> buscarTodos() {
         return mapper.marcasToMarcasDtos(repository.findAll());
     }
 
-    MarcaDto salvar(MarcaDto marca) {
+    public MarcaDto salvar(MarcaDto marca) {
         return mapper.marcaToMarcaDto(repository.save(mapper.marcaDtoToMarca(marca)));
     }
 
-    MarcaDto atualizar(Long id, MarcaDto marca) throws EntityNotFoundException {
+    public MarcaDto atualizar(Long id, MarcaDto marca) throws EntityNotFoundException {
         MarcaDto updated = this.buscar(id);
         marca.setId(updated.getId());
         return this.salvar(marca);
     }
 
-    MarcaDto deleta(Long id) throws EntityNotFoundException {
+    public MarcaDto apagar(Long id) throws EntityNotFoundException {
         // TODO: deve ser possível excluir uma marca que possui veículos cadastrados? Onde colocar essa regra?
         MarcaDto marca = this.buscar(id);
         repository.delete(mapper.marcaDtoToMarca(marca));

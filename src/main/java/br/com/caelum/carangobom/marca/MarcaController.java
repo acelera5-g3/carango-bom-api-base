@@ -26,7 +26,7 @@ public class MarcaController {
 
     @GetMapping()
     @ApiOperation("Recupera uma lista de marcas")
-    public ResponseEntity<Iterable<MarcaDto>> lista() {
+    public ResponseEntity<Iterable<MarcaDto>> listarMarcas() {
         return ResponseEntity.ok().body(service.buscarTodos());
     }
 
@@ -47,13 +47,13 @@ public class MarcaController {
 
     @PutMapping("{id}")
     @ApiOperation("Atualiza uma marca")
-    public ResponseEntity<MarcaDto> alterarNomeMarca(@PathVariable Long id, @Valid @RequestBody MarcaDto request) {
+    public ResponseEntity<MarcaDto> atualizarMarca(@PathVariable Long id, @Valid @RequestBody MarcaDto request) {
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Remove uma marca")
-    public ResponseEntity<MarcaDto> deleta(@PathVariable Long id) {
-        return ResponseEntity.ok(service.deleta(id));
+    public ResponseEntity<MarcaDto> apagarMarca(@PathVariable Long id) {
+        return ResponseEntity.ok(service.apagar(id));
     }
 }
