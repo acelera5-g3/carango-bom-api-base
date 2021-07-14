@@ -3,6 +3,8 @@ package br.com.caelum.carangobom.marca;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +29,11 @@ public class MarcaController {
     @GetMapping()
     @ApiOperation("Recupera uma lista de marcas")
     public ResponseEntity<Iterable<MarcaDto>> listarMarcas(
-            @RequestParam(required = false, defaultValue = "0") int pagina,
-            @RequestParam(required = false, defaultValue = "10") int quantidade
-            ) {
-        return ResponseEntity.ok().body(service.buscarTodos(pagina, quantidade));
+            @PageableDefault(
+                    sort = "nome"
+            ) Pageable pagination
+    ) {
+        return ResponseEntity.ok().body(service.buscarTodos(pagination));
     }
 
     @GetMapping("/{id}")

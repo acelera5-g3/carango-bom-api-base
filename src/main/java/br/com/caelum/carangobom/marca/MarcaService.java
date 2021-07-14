@@ -5,7 +5,6 @@ import br.com.caelum.carangobom.marca.dtos.MarcaDto;
 import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -36,9 +35,8 @@ public class MarcaService implements CrudService<MarcaDto> {
     }
 
     @Override
-    public Page<MarcaDto> buscarTodos(int pagina, int quantidade) {
-        Pageable pageable = PageRequest.of(pagina, quantidade);
-        return repository.findAll(pageable).map(mapper::marcaToMarcaDto);
+    public Page<MarcaDto> buscarTodos(Pageable pagination) {
+        return repository.findAll(pagination).map(mapper::marcaToMarcaDto);
     }
 
     @Override

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,10 +42,12 @@ class MarcaControllerTest {
         @SuppressWarnings("unchecked")
         Page<MarcaDto> marcas = mock(Page.class);
 
-        when(service.buscarTodos(anyInt(), anyInt()))
+        when(service.buscarTodos(any(Pageable.class)))
             .thenReturn(marcas);
 
-        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.listarMarcas(1,1);
+        Pageable pagination = PageRequest.of(0, 1);
+
+        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.listarMarcas(pagination);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
     }
 

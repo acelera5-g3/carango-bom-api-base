@@ -1,6 +1,7 @@
 package br.com.caelum.carangobom;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -10,7 +11,7 @@ public interface CrudService<T> {
 
     T buscar(Long id);
 
-    Page<T> buscarTodos(int pagina, int qtd);
+    Page<T> buscarTodos(Pageable pagination);
 
     T salvar(T dto);
 

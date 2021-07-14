@@ -6,6 +6,9 @@ import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityNotFoundException;
@@ -70,13 +73,16 @@ class MarcaServiceTest {
 
     @Test
     void deveBuscarTodasAsMarcas() {
-        List<Marca> list = List.of(new Marca(1L, "TESTE"));
+        @SuppressWarnings("unchecked")
+        Page<Marca> list = mock(Page.class);
 
-        when(repository.findAll()).thenReturn(list);
+        when(repository.findAll(any(Pageable.class))).thenReturn(list);
 
-        Iterable<MarcaDto> res = service.buscarTodos(1,1);
+        Pageable pagination = PageRequest.of(0,1);
 
-        assertEquals(((List<MarcaDto>) res).get(0).getId(), list.get(0).getId());
+        service.buscarTodos(pagination);
+
+        verify(repository).findAll(pagination);
     }
 
     @Test
