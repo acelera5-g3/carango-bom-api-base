@@ -1,8 +1,7 @@
 package br.com.caelum.carangobom.marca;
 
-import br.com.caelum.carangobom.mappers.MapStructMapper;
 import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.entities.Marca;
+import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,13 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class MarcaControllerTest {
@@ -25,62 +25,58 @@ class MarcaControllerTest {
     private UriComponentsBuilder uriBuilder;
 
     @Mock
-    private MarcaRepository marcaRepository;
+    private MarcaMapper mapper;
 
     @Mock
-    private MapStructMapper mapper;
+    private MarcaService service;
 
     @BeforeEach
     public void configuraMock() {
         openMocks(this);
 
-        marcaController = new MarcaController(mapper, marcaRepository);
+        marcaController = new MarcaController(mapper, service);
         uriBuilder = UriComponentsBuilder.fromUriString("http://localhost:8080");
     }
 
     @Test
     void deveRetornarListaQuandoHouverResultados() {
-        List<Marca> marcas = List.of(
-            new Marca(1L, "Audi"),
-            new Marca(2L, "BMW"),
-            new Marca(3L, "Fiat")
+        List<MarcaDto> marcas = List.of(
+            new MarcaDto(1L, "Audi"),
+            new MarcaDto(2L, "BMW"),
+            new MarcaDto(3L, "Fiat")
         );
 
-        when(marcaRepository.findAll())
+        when(service.buscarTodos())
             .thenReturn(marcas);
 
-        ResponseEntity<List<MarcaDto>> resultado = marcaController.lista();
+        ResponseEntity<Iterable<MarcaDto>> resultado = marcaController.lista();
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
     }
 
     @Test
     void deveRetornarMarcaPeloId() {
-        Marca audi = new Marca(1L, "Audi");
+        MarcaDto audi = new MarcaDto(1L, "Audi");
 
-        when(marcaRepository.findById(1L))
-            .thenReturn(Optional.of(audi));
+        when(service.buscar(1L))
+            .thenReturn(audi);
 
         ResponseEntity<MarcaDto> resposta = marcaController.recuperarMarca(1L);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
     @Test
-    void deveRetornarNotFoundQuandoRecuperarMarcaComIdInexistente() {
-        when(marcaRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
-        ResponseEntity<MarcaDto> resposta = marcaController.recuperarMarca(1L);
-        assertEquals(HttpStatus.NOT_FOUND, resposta.getStatusCode());
+    void deveRetornarNotFoundQuandoRecuperarMarcaComIdInexistente() throws EntityNotFoundException {
+        when(service.buscar(anyLong()))
+                .thenThrow(new EntityNotFoundException());
+        assertThrows(EntityNotFoundException.class, () -> marcaController.recuperarMarca(1L));
     }
 
     @Test
     void deveResponderCreatedQuandoCadastrarMarca() {
         MarcaDto nova = new MarcaDto(1L, "Ferrari");
 
-        Marca marcaSalva = new Marca(1L, "Ferrari");
-
-        when(marcaRepository.save(mapper.marcaDtoToMarca(nova)))
-            .thenReturn(marcaSalva);
+        when(service.salvar(nova))
+            .thenReturn(nova);
 
         ResponseEntity<MarcaDto> resposta = marcaController.cadastrarMarca(nova, uriBuilder);
         assertEquals(HttpStatus.CREATED, resposta.getStatusCode());
@@ -88,48 +84,39 @@ class MarcaControllerTest {
 
     @Test
     void deveAlterarNomeQuandoMarcaExistir() {
-        Marca audi = new Marca(1L, "Audi");
         MarcaDto dto = new MarcaDto(1L, "NOVA Audi");
 
-        when(marcaRepository.findById(1L))
-            .thenReturn(Optional.of(audi));
+        when(service.buscar(1L))
+            .thenReturn(dto);
 
         ResponseEntity<MarcaDto> resposta = marcaController.alterarNomeMarca(1L, dto);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
     @Test
-    void naoDeveAlterarMarcaInexistente() {
+    void naoDeveAlterarMarcaInexistente() throws EntityNotFoundException {
         MarcaDto dto = new MarcaDto(1L, "NOVA Audi");
 
-        when(marcaRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
+        when(service.atualizar(anyLong(), any(MarcaDto.class))).thenThrow(new EntityNotFoundException());
 
-        ResponseEntity<MarcaDto> resposta = marcaController.alterarNomeMarca(1L, dto);
-        assertEquals(HttpStatus.NOT_FOUND, resposta.getStatusCode());
+        assertThrows(EntityNotFoundException.class, () -> marcaController.alterarNomeMarca(1L, dto));
     }
 
     @Test
     void deveDeletarMarcaExistente() {
-        Marca audi = new Marca(1L, "Audi");
+        MarcaDto audi = new MarcaDto(1L, "Audi");
 
-        when(marcaRepository.findById(1L))
-            .thenReturn(Optional.of(audi));
+        when(service.buscar(1L))
+            .thenReturn(audi);
 
         ResponseEntity<MarcaDto> resposta = marcaController.deleta(1L);
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
-        verify(marcaRepository).delete(audi);
     }
 
     @Test
-    void naoDeveDeletarMarcaInexistente() {
-        when(marcaRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
-        ResponseEntity<MarcaDto> resposta = marcaController.deleta(1L);
-        assertEquals(HttpStatus.NOT_FOUND, resposta.getStatusCode());
-
-        verify(marcaRepository, never()).delete(any());
+    void naoDeveDeletarMarcaInexistente() throws EntityNotFoundException {
+        when(service.deleta(anyLong())).thenThrow(new EntityNotFoundException());
+        assertThrows(EntityNotFoundException.class, () -> marcaController.deleta(1L));
     }
 
 }
