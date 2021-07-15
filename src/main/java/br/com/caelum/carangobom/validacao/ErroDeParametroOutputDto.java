@@ -1,23 +1,17 @@
 package br.com.caelum.carangobom.validacao;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.validation.FieldError;
+
+@Data
+@AllArgsConstructor
 public class ErroDeParametroOutputDto {
 
     private String parametro;
     private String mensagem;
 
-    public String getParametro() {
-        return parametro;
-    }
-
-    public void setParametro(String parametro) {
-        this.parametro = parametro;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    public ErroDeParametroOutputDto(FieldError fieldError) {
+        this(fieldError.getField(), fieldError.getDefaultMessage());
     }
 }
