@@ -1,9 +1,12 @@
 package br.com.caelum.carangobom.marca.entities;
 
+import br.com.caelum.carangobom.veiculo.entities.Veiculo;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
