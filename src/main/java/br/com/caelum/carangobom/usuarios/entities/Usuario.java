@@ -21,6 +21,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "usuarios")
 public class Usuario implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column
@@ -43,7 +45,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.perfis;
     }
 
     @Override
