@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.seguranca;
+package br.com.caelum.carangobom.seguranca.services;
 
 import br.com.caelum.carangobom.usuarios.UsuarioRepository;
 import br.com.caelum.carangobom.usuarios.entities.Usuario;
@@ -13,12 +13,12 @@ import java.util.Optional;
 @Service
 public class AutenticacaoService implements UserDetailsService {
     @Autowired
-private UsuarioRepository repository;
+    private UsuarioRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<Usuario> usuario =  repository.findByEmail(s);
-        if (usuario.isPresent()){
+        Optional<Usuario> usuario = repository.findByEmail(s);
+        if (usuario.isPresent()) {
             return usuario.get();
         }
         throw new UsernameNotFoundException("Dados invalidos");
