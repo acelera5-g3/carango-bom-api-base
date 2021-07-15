@@ -39,13 +39,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // Configs de autorização
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers( "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/marcas").permitAll()
                 .antMatchers( "/usuarios").permitAll()
                 .antMatchers( "/usuarios/*").permitAll()
                 .anyRequest().authenticated()
-        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }
 

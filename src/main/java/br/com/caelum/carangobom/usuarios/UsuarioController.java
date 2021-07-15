@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,8 +41,9 @@ public class UsuarioController {
     @PostMapping()
     @ApiOperation("Cadastra uma nova usuario")
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@Valid @RequestBody UsuarioDto request, UriComponentsBuilder uriBuilder) {
+        String hashSenha = new BCryptPasswordEncoder().encode(request.getSenha());
+        request.setSenha(hashSenha);
         UsuarioDto usuario = service.salvar(request);
-        // TODO: Ainda não entendi qualé a desse uriBuilder
         URI h = uriBuilder.path("/usuarios/{id}").buildAndExpand(request.getId()).toUri();
         return ResponseEntity.created(h).body(usuario);
     }
