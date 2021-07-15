@@ -32,9 +32,7 @@ public class MarcaController {
     @Cacheable(value = "marcas")
     @ApiOperation("Recupera uma lista de marcas")
     public ResponseEntity<Iterable<MarcaDto>> listarMarcas(
-            @PageableDefault(
-                    sort = "nome"
-            ) Pageable pagination
+            Pageable pagination
     ) {
         return ResponseEntity.ok().body(service.buscarTodos(pagination));
     }
