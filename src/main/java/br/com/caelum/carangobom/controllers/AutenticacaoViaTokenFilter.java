@@ -1,8 +1,8 @@
 package br.com.caelum.carangobom.controllers;
 
-import br.com.caelum.carangobom.services.TokenService;
-import br.com.caelum.carangobom.repositories.UsuarioRepository;
 import br.com.caelum.carangobom.entities.Usuario;
+import br.com.caelum.carangobom.repositories.UsuarioRepository;
+import br.com.caelum.carangobom.services.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -13,6 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
@@ -45,10 +47,9 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
     private String recuperarToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
-            return null;
-        }
 
-        return token.substring(7);
+        Matcher matcher = Pattern.compile("^Bearer ").matcher(token);
+
+        return matcher.find() ? token.substring(7) : null;
     }
 }
