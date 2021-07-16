@@ -1,9 +1,6 @@
 package br.com.caelum.carangobom.veiculo;
 
 import br.com.caelum.carangobom.CrudService;
-import br.com.caelum.carangobom.marca.MarcaRepository;
-import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
 import br.com.caelum.carangobom.veiculo.dtos.VeiculoDto;
 import br.com.caelum.carangobom.veiculo.mappers.VeiculoMapper;
 import org.springframework.beans.factory.annotation.Autowired;

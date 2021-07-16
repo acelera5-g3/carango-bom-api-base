@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
-import java.time.Year;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -31,12 +30,12 @@ public class Veiculo {
 
     @Basic
     @Column
-    @NotBlank
-    private Year ano;
+    @NotNull
+    private int ano;
 
     @Basic
     @Column
-    @NotBlank
+    @NotNull
     private Long valor;
 
     @ManyToOne(fetch = FetchType.EAGER)

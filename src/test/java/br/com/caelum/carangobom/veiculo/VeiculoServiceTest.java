@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +49,8 @@ class VeiculoServiceTest {
         MarcaDto marcaDto = new MarcaDto(1L, "Teste");
         Marca marca = new Marca(1L, "Teste");
 
-        dto = new VeiculoDto(1L, "Teste", Year.now(), 20000L, marcaDto);
-        entity = new Veiculo(1L, "Teste", Year.now(), 20000L, marca);
+        dto = new VeiculoDto(1L, "Teste", 2021, 20000L, marcaDto);
+        entity = new Veiculo(1L, "Teste", 2021, 20000L, marca);
 
         when(mapper.veiculoToVeiculoDto(any(Veiculo.class))).thenReturn(dto);
         when(mapper.veiculoDtoToVeiculo(any(VeiculoDto.class))).thenReturn(entity);

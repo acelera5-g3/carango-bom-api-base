@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Year;
 
 @Data
 @AllArgsConstructor
@@ -33,16 +33,15 @@ public class VeiculoDto {
     private String modelo;
 
     @JsonProperty("ano")
-    @NotBlank
+    @NotNull
     @ApiModelProperty(
             notes = "Ano do veiculo",
             example = "2020"
     )
-    private Year ano;
+    private int ano;
 
     @JsonProperty("valor")
-    @NotBlank
-    @Size(min = 2, message = "Deve ter {min} ou mais caracteres.")
+    @NotNull
     @ApiModelProperty(
             notes = "Valor do veiculo",
             example = "20.000"
@@ -50,9 +49,9 @@ public class VeiculoDto {
     private Long valor;
 
     @JsonProperty("marca")
-    @NotBlank
+    @NotNull
     @ApiModelProperty(
-            notes = "Marca do veiculo",
+            notes = "Id da marca do veiculo",
             example = "HYUNDAI"
     )
     private MarcaDto marca;
