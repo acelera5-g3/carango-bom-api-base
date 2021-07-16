@@ -19,14 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private TokenService tokenService;
     private UsuarioRepository usuarioRepository;
     private AutenticacaoService autenticacaoService;
 
     @Autowired
-    SecurityConfiguration(
+    SecurityConfig(
             TokenService tokenService,
             UsuarioRepository usuarioRepository,
             AutenticacaoService autenticacaoService
