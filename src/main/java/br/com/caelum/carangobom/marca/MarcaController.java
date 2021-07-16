@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +48,6 @@ public class MarcaController {
     @ApiOperation("Cadastra uma nova marca")
     public ResponseEntity<MarcaDto> cadastrarMarca(@Valid @RequestBody MarcaDto request, UriComponentsBuilder uriBuilder) {
         MarcaDto marca = service.salvar(request);
-        // TODO: Ainda não entendi qualé a desse uriBuilder
         URI h = uriBuilder.path("/marcas/{id}").buildAndExpand(request.getId()).toUri();
         return ResponseEntity.created(h).body(marca);
     }

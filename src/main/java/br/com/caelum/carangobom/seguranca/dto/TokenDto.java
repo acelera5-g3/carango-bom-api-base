@@ -1,6 +1,5 @@
 package br.com.caelum.carangobom.seguranca.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

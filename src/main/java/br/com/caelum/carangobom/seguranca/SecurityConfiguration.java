@@ -11,7 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,14 +20,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
+
     private TokenService tokenService;
-
-    @Autowired
     private UsuarioRepository usuarioRepository;
+    private AutenticacaoService autenticacaoService;
 
     @Autowired
-    private AutenticacaoService autenticacaoService;
+    SecurityConfiguration(
+            TokenService tokenService,
+            UsuarioRepository usuarioRepository,
+            AutenticacaoService autenticacaoService
+    ) {
+        this.tokenService = tokenService;
+        this.usuarioRepository = usuarioRepository;
+        this.autenticacaoService = autenticacaoService;
+    }
 
     @Override
     @Bean
@@ -54,10 +60,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
-    }
-
-    // Configs de recursos estáticos
-    @Override
-    public void configure(WebSecurity web) throws Exception {
     }
 }

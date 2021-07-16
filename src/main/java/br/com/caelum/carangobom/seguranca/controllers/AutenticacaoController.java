@@ -4,6 +4,7 @@ import br.com.caelum.carangobom.seguranca.dto.TokenDto;
 import br.com.caelum.carangobom.seguranca.entities.Login;
 import br.com.caelum.carangobom.seguranca.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,11 +21,17 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AutenticacaoController {
 
-    @Autowired
     private AuthenticationManager authManager;
+    private TokenService tokenService;
 
     @Autowired
-    private TokenService tokenService;
+    AutenticacaoController(
+            AuthenticationManager authManager,
+            TokenService tokenService
+    ) {
+        this.authManager = authManager;
+        this.tokenService = tokenService;
+    }
 
     @PostMapping
     public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid Login form) {
@@ -34,7 +41,7 @@ public class AutenticacaoController {
             String token = tokenService.gerarToken(authentication);
             return ResponseEntity.ok(new TokenDto(token, "Bearer"));
         } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 }

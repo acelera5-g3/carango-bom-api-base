@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +36,9 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void autenticarCliente(String token) {
+    private void autenticarCliente(String token) throws EntityNotFoundException {
         Long idUsuario = tokenService.getIdUsuario(token);
-        Usuario usuario = repository.findById(idUsuario).get();
+        Usuario usuario = repository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -48,6 +49,6 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
             return null;
         }
 
-        return token.substring(7, token.length());
+        return token.substring(7);
     }
 }
