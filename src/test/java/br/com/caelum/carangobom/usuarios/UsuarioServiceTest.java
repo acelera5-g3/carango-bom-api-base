@@ -1,8 +1,10 @@
 package br.com.caelum.carangobom.usuarios;
 
-import br.com.caelum.carangobom.usuarios.dtos.UsuarioDto;
-import br.com.caelum.carangobom.usuarios.entities.Usuario;
-import br.com.caelum.carangobom.usuarios.mappers.UsuarioMapper;
+import br.com.caelum.carangobom.dtos.UsuarioDto;
+import br.com.caelum.carangobom.entities.Usuario;
+import br.com.caelum.carangobom.mappers.UsuarioMapper;
+import br.com.caelum.carangobom.repositories.UsuarioRepository;
+import br.com.caelum.carangobom.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -47,9 +49,9 @@ class UsuarioServiceTest {
 
         List<UsuarioDto> dtos = List.of(dto);
 
-        when(mapper.usuarioToUsuarioDto(any(Usuario.class))).thenReturn(dto);
-        when(mapper.usuarioDtoToUsuario(any(UsuarioDto.class))).thenReturn(entity);
-        when(mapper.usuariosToUsuariosDto(anyList())).thenReturn(dtos);
+        when(mapper.entityToDto(any(Usuario.class))).thenReturn(dto);
+        when(mapper.dtoToEntity(any(UsuarioDto.class))).thenReturn(entity);
+        when(mapper.entitiesToDtos(anyList())).thenReturn(dtos);
     }
 
     @Test
