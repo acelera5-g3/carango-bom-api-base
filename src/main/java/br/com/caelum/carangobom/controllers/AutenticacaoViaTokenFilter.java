@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Objects.nonNull;
+
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
     private UsuarioRepository repository;
@@ -46,7 +48,9 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     private String recuperarToken(HttpServletRequest request) {
+
         String token = request.getHeader("Authorization");
+        token = nonNull(token)? token : "";
 
         Matcher matcher = Pattern.compile("^Bearer ").matcher(token);
 

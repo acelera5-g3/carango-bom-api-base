@@ -75,7 +75,7 @@ class AutenticacaoViaTokenFilterTest {
 
     @Test
     void naoDeveAutorizarTokenInvalido() throws ServletException, IOException {
-        when(request.getHeader(anyString())).thenReturn("");
+        when(request.getHeader(anyString())).thenReturn(null);
         when(tokenService.isTokenValido(anyString())).thenReturn(false);
 
         autenticacao.doFilterInternal(request, response, filterChain);
