@@ -1,6 +1,8 @@
 package br.com.caelum.carangobom.usuarios;
 
-import br.com.caelum.carangobom.usuarios.dtos.UsuarioDto;
+import br.com.caelum.carangobom.controllers.UsuarioController;
+import br.com.caelum.carangobom.dtos.UsuarioDto;
+import br.com.caelum.carangobom.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

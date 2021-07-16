@@ -1,8 +1,10 @@
 package br.com.caelum.carangobom.marca;
 
-import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.entities.Marca;
-import br.com.caelum.carangobom.marca.mappers.MarcaMapper;
+import br.com.caelum.carangobom.dtos.MarcaDto;
+import br.com.caelum.carangobom.entities.Marca;
+import br.com.caelum.carangobom.mappers.MarcaMapper;
+import br.com.caelum.carangobom.repositories.MarcaRepository;
+import br.com.caelum.carangobom.services.MarcaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -1,7 +1,9 @@
 package br.com.caelum.carangobom.veiculo;
 
-import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.veiculo.dtos.VeiculoDto;
+import br.com.caelum.carangobom.controllers.VeiculoController;
+import br.com.caelum.carangobom.dtos.MarcaDto;
+import br.com.caelum.carangobom.dtos.VeiculoDto;
+import br.com.caelum.carangobom.services.VeiculoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.Year;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,10 +1,12 @@
 package br.com.caelum.carangobom.veiculo;
 
-import br.com.caelum.carangobom.marca.dtos.MarcaDto;
-import br.com.caelum.carangobom.marca.entities.Marca;
-import br.com.caelum.carangobom.veiculo.dtos.VeiculoDto;
-import br.com.caelum.carangobom.veiculo.entities.Veiculo;
-import br.com.caelum.carangobom.veiculo.mappers.VeiculoMapper;
+import br.com.caelum.carangobom.dtos.MarcaDto;
+import br.com.caelum.carangobom.entities.Marca;
+import br.com.caelum.carangobom.dtos.VeiculoDto;
+import br.com.caelum.carangobom.entities.Veiculo;
+import br.com.caelum.carangobom.mappers.VeiculoMapper;
+import br.com.caelum.carangobom.repositories.VeiculoRespository;
+import br.com.caelum.carangobom.services.VeiculoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
