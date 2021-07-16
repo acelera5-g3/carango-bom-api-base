@@ -30,18 +30,18 @@ public class VeiculoService implements CrudService<VeiculoDto> {
     @Override
     public VeiculoDto buscar(Long id) throws EntityNotFoundException {
         return repository.findById(id)
-                .map(mapper::veiculoToVeiculoDto)
+                .map(mapper::entityToDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Page<VeiculoDto> buscarTodos(Pageable pagination) {
-        return repository.findAll(pagination).map(mapper::veiculoToVeiculoDto);
+        return repository.findAll(pagination).map(mapper::entityToDto);
     }
 
     @Override
     public VeiculoDto salvar(VeiculoDto dto) {
-        return mapper.veiculoToVeiculoDto(repository.save(mapper.veiculoDtoToVeiculo(dto)));
+        return mapper.entityToDto(repository.save(mapper.dtoToEntity(dto)));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class VeiculoService implements CrudService<VeiculoDto> {
     @Override
     public VeiculoDto apagar(Long id) throws EntityNotFoundException {
         VeiculoDto dto = this.buscar(id);
-        repository.delete(mapper.veiculoDtoToVeiculo(dto));
+        repository.delete(mapper.dtoToEntity(dto));
         return dto;
     }
 }

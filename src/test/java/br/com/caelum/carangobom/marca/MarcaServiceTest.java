@@ -48,12 +48,12 @@ class MarcaServiceTest {
         dto = new MarcaDto(1L, "TESTE");
         entity = new Marca(1L, "TESTE");
 
-        when(mapper.marcaToMarcaDto(any(Marca.class))).thenReturn(dto);
-        when(mapper.marcaDtoToMarca(any(MarcaDto.class))).thenReturn(entity);
+        when(mapper.entityToDto(any(Marca.class))).thenReturn(dto);
+        when(mapper.dtoToEntity(any(MarcaDto.class))).thenReturn(entity);
 
         List<MarcaDto> dtos = List.of(new MarcaDto(1L, "TESTE"));
 
-        when(mapper.marcasToMarcasDtos(anyList())).thenReturn(dtos);
+        when(mapper.entitiesToDtos(anyList())).thenReturn(dtos);
     }
 
     @Test

@@ -30,18 +30,18 @@ public class UsuarioService implements CrudService<UsuarioDto> {
     @Override
     public UsuarioDto buscar(Long id) {
         return repository.findById(id)
-                .map(mapper::usuarioToUsuarioDto)
+                .map(mapper::entityToDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Page<UsuarioDto> buscarTodos(Pageable pagination) {
-        return repository.findAll(pagination).map(mapper::usuarioToUsuarioDto);
+        return repository.findAll(pagination).map(mapper::entityToDto);
     }
 
     @Override
     public UsuarioDto salvar(UsuarioDto dto) {
-        return mapper.usuarioToUsuarioDto(repository.save(mapper.usuarioDtoToUsuario(dto)));
+        return mapper.entityToDto(repository.save(mapper.dtoToEntity(dto)));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UsuarioService implements CrudService<UsuarioDto> {
     @Override
     public UsuarioDto apagar(Long id) throws EntityNotFoundException {
         UsuarioDto usuario = this.buscar(id);
-        repository.delete(mapper.usuarioDtoToUsuario(usuario));
+        repository.delete(mapper.dtoToEntity(usuario));
         return usuario;
     }
 }

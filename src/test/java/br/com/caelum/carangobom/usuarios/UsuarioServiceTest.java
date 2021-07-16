@@ -47,9 +47,9 @@ class UsuarioServiceTest {
 
         List<UsuarioDto> dtos = List.of(dto);
 
-        when(mapper.usuarioToUsuarioDto(any(Usuario.class))).thenReturn(dto);
-        when(mapper.usuarioDtoToUsuario(any(UsuarioDto.class))).thenReturn(entity);
-        when(mapper.usuariosToUsuariosDto(anyList())).thenReturn(dtos);
+        when(mapper.entityToDto(any(Usuario.class))).thenReturn(dto);
+        when(mapper.dtoToEntity(any(UsuarioDto.class))).thenReturn(entity);
+        when(mapper.entitiesToDtos(anyList())).thenReturn(dtos);
     }
 
     @Test

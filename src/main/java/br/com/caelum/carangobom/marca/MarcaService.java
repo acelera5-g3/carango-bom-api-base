@@ -30,18 +30,18 @@ public class MarcaService implements CrudService<MarcaDto> {
     @Override
     public MarcaDto buscar(Long id) throws EntityNotFoundException {
         return repository.findById(id)
-                .map(mapper::marcaToMarcaDto)
+                .map(mapper::entityToDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Page<MarcaDto> buscarTodos(Pageable pagination) {
-        return repository.findAll(pagination).map(mapper::marcaToMarcaDto);
+        return repository.findAll(pagination).map(mapper::entityToDto);
     }
 
     @Override
     public MarcaDto salvar(MarcaDto marca) {
-        return mapper.marcaToMarcaDto(repository.save(mapper.marcaDtoToMarca(marca)));
+        return mapper.entityToDto(repository.save(mapper.dtoToEntity(marca)));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MarcaService implements CrudService<MarcaDto> {
     public MarcaDto apagar(Long id) throws EntityNotFoundException {
         // TODO: deve ser possível excluir uma marca que possui veículos cadastrados? Onde colocar essa regra?
         MarcaDto marca = this.buscar(id);
-        repository.delete(mapper.marcaDtoToMarca(marca));
+        repository.delete(mapper.dtoToEntity(marca));
         return marca;
     }
 }

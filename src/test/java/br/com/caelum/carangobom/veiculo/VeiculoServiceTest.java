@@ -52,12 +52,12 @@ class VeiculoServiceTest {
         dto = new VeiculoDto(1L, "Teste", 2021, 20000L, marcaDto);
         entity = new Veiculo(1L, "Teste", 2021, 20000L, marca);
 
-        when(mapper.veiculoToVeiculoDto(any(Veiculo.class))).thenReturn(dto);
-        when(mapper.veiculoDtoToVeiculo(any(VeiculoDto.class))).thenReturn(entity);
+        when(mapper.entityToDto(any(Veiculo.class))).thenReturn(dto);
+        when(mapper.dtoToEntity(any(VeiculoDto.class))).thenReturn(entity);
 
         List<VeiculoDto> dtos = List.of(dto);
 
-        when(mapper.veiculosToVeiculosDtos(anyList())).thenReturn(dtos);
+        when(mapper.entitiesToDtos(anyList())).thenReturn(dtos);
     }
 
     @Test
