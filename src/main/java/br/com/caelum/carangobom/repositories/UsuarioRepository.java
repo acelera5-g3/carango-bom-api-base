@@ -1,12 +1,21 @@
 package br.com.caelum.carangobom.repositories;
 
 import br.com.caelum.carangobom.entities.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends Repository<Usuario, Long> {
+
+    Usuario save(Usuario marca);
+
+    void delete(Usuario marca);
+
+    Optional<Usuario> findById(Long id);
+
+    Page<Usuario> findAll(Pageable pageable);
+
     Optional<Usuario> findByEmail(String email);
 }

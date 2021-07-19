@@ -1,10 +1,19 @@
 package br.com.caelum.carangobom.repositories;
 
 import br.com.caelum.carangobom.entities.Veiculo;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.Repository;
 
-@Repository
-public interface VeiculoRespository extends JpaRepository<Veiculo, Long>{
+import java.util.Optional;
+
+public interface VeiculoRespository extends Repository<Veiculo, Long> {
+    Veiculo save(Veiculo marca);
+
+    void delete(Veiculo marca);
+
+    Optional<Veiculo> findById(Long id);
+
+    Page<Veiculo> findAll(Pageable pageable);
 }
 
