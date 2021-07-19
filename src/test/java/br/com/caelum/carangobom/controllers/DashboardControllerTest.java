@@ -29,7 +29,7 @@ public class DashboardControllerTest {
                 service
         );
 
-        dto = List.of(new DashboardDto(1L,100L,"MARCA", 1L));
+        dto = List.of(new DashboardDto(1,100L,"MARCA", 1L));
     }
 
     @Test

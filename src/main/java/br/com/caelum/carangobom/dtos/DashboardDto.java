@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DashboardDto {
     @JsonProperty("quantidade")
-    private Long quantidade;
+    private int quantidade;
 
     @JsonProperty("somatoria")
     private Long somatoria;
