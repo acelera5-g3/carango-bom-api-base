@@ -2,6 +2,8 @@ package br.com.caelum.carangobom.services;
 
 import br.com.caelum.carangobom.dtos.DashboardDto;
 import br.com.caelum.carangobom.dtos.VeiculoDto;
+import br.com.caelum.carangobom.entities.Marca;
+import br.com.caelum.carangobom.repositories.MarcaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,24 +22,24 @@ class DashboardServiceTest {
 
 
     @Mock
-    VeiculoService veiculoService;
+    MarcaRepository marcaRepository;
 
     DashboardService service;
 
     @SuppressWarnings("unchecked")
-    Page<VeiculoDto> veiculos = mock(Page.class);
+    List<Marca> marcas = mock(List.class);
 
     @BeforeEach
     void setup() {
         openMocks(this);
         service = new DashboardService(
-                veiculoService
+                marcaRepository
         );
     }
 
     @Test
     void deveRecuperarDashboard() {
-        when(veiculoService.buscarTodos(any(Pageable.class))).thenReturn(veiculos);
+        when(marcaRepository.findAll()).thenReturn(marcas);
         List<DashboardDto> res = service.recuperarDashboard();
         assertNotNull(res);
     }

@@ -1,6 +1,7 @@
 package br.com.caelum.carangobom.services;
 
 import br.com.caelum.carangobom.dtos.DashboardDto;
+import br.com.caelum.carangobom.repositories.MarcaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,26 +13,21 @@ import java.util.List;
 @Validated
 public class DashboardService {
 
-    private VeiculoService veiculoService;
+    private MarcaRepository marcaRepository;
 
 
     @Autowired
     DashboardService(
-            VeiculoService veiculoService
+            MarcaRepository marcaRepository
     ) {
-        this.veiculoService = veiculoService;
+        this.marcaRepository = marcaRepository;
     }
 
     public List<DashboardDto> recuperarDashboard() {
 
         DashboardDto dashboard = new DashboardDto();
 
-        final Long[] somatoria = {0L};
-        veiculoService.buscarTodos(Pageable.unpaged()).get().forEach( veiculo -> {
-            somatoria[0] += veiculo.getValor();
-        } );
-
-        dashboard.setSomatoria(somatoria[0]);
+        marcaRepository.findAll();
         return List.of(dashboard);
     }
 }

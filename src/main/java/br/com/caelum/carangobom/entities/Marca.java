@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import java.util.List;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -25,4 +27,7 @@ public class Marca {
     @Column
     @NotBlank
     private String nome;
+
+    @OneToMany(targetEntity = Veiculo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Veiculo> veiculo;
 }
