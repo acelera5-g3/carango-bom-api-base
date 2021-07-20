@@ -15,4 +15,6 @@ public interface MarcaRepository extends Repository<Marca, Long> {
     Optional<Marca> findById(Long id);
 
     Page<Marca> findAll(Pageable pageable);
+
+    Page<Marca> findAll();
 }

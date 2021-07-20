@@ -5,6 +5,9 @@ import br.com.caelum.carangobom.entities.Marca;
 import br.com.caelum.carangobom.entities.Veiculo;
 import br.com.caelum.carangobom.repositories.MarcaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -36,8 +39,10 @@ public class DashboardService {
         return informacoes;
     }
 
-    public List<DashboardDto> recuperarDashboard() {
+    public Page<DashboardDto> recuperarDashboard(Pageable paginacao) {
 
-        return marcaRepository.findAll().stream().map(this::pegarInformacoesDaMarca).collect(Collectors.toList());
+        List<DashboardDto> marcas = marcaRepository.findAll(paginacao).getContent().stream().map(this::pegarInformacoesDaMarca).collect(Collectors.toList());
+
+        return new PageImpl<>(marcas);
     }
 }
