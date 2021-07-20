@@ -1,8 +1,6 @@
 package br.com.caelum.carangobom.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -37,6 +36,6 @@ public class Veiculo {
     @NotNull
     private Long valor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Marca marca;
 }

@@ -49,7 +49,7 @@ class VeiculoServiceTest {
         );
 
         MarcaDto marcaDto = new MarcaDto(1L, "Teste");
-        Marca marca = new Marca(1L, "Teste");
+        Marca marca = new Marca(1L, "Teste", null);
 
         dto = new VeiculoDto(1L, "Teste", 2021, 20000L, marcaDto);
         entity = new Veiculo(1L, "Teste", 2021, 20000L, marca);

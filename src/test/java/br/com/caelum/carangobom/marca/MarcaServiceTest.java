@@ -48,7 +48,7 @@ class MarcaServiceTest {
         );
 
         dto = new MarcaDto(1L, "TESTE");
-        entity = new Marca(1L, "TESTE");
+        entity = new Marca(1L, "TESTE", null);
 
         when(mapper.entityToDto(any(Marca.class))).thenReturn(dto);
         when(mapper.dtoToEntity(any(MarcaDto.class))).thenReturn(entity);
