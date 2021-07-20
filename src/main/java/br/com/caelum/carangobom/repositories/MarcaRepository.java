@@ -1,8 +1,20 @@
 package br.com.caelum.carangobom.repositories;
 
 import br.com.caelum.carangobom.entities.Marca;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.Repository;
 
-@Repository
-public interface MarcaRepository extends JpaRepository<Marca, Long> {}
+import java.util.Optional;
+
+public interface MarcaRepository extends Repository<Marca, Long> {
+    Marca save(Marca marca);
+
+    void delete(Marca marca);
+
+    Optional<Marca> findById(Long id);
+
+    Page<Marca> findAll(Pageable pageable);
+
+    Page<Marca> findAll();
+}

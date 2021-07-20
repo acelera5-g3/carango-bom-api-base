@@ -22,9 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private TokenService tokenService;
-    private UsuarioRepository usuarioRepository;
-    private AutenticacaoService autenticacaoService;
+    private final TokenService tokenService;
+    private final UsuarioRepository usuarioRepository;
+    private final AutenticacaoService autenticacaoService;
 
     @Autowired
     SecurityConfig(
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/usuarios").permitAll()
                 .antMatchers("/usuarios/*").permitAll()
                 .anyRequest().authenticated()
-                .and().csrf().disable()
+                .and().csrf().and().cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }

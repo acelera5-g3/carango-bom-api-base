@@ -5,22 +5,31 @@ import br.com.caelum.carangobom.services.DashboardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-public class DashboardControllerTest {
+class DashboardControllerTest {
 
     @Mock
     DashboardService service;
+
     DashboardController controller;
 
-    List<DashboardDto> dto;
+    @Mock
+    Pageable paginacao = mock(Pageable.class);
+
+    @SuppressWarnings("unchecked")
+    Page<DashboardDto> dashboard = mock(Page.class);
 
     @BeforeEach
     void setup() {
@@ -28,14 +37,12 @@ public class DashboardControllerTest {
         controller = new DashboardController(
                 service
         );
-
-        dto = List.of(new DashboardDto(1,100L,"MARCA", 1L));
     }
 
     @Test
     void deveRecuperarADashboard() {
-        when(service.recuperarDashboard()).thenReturn(dto);
-        ResponseEntity<List<DashboardDto>> res = controller.dashboard();
+        when(service.recuperarDashboard(any(Pageable.class))).thenReturn(dashboard);
+        ResponseEntity<Page<DashboardDto>> res = controller.dashboard(paginacao);
 
         assertEquals(HttpStatus.OK, res.getStatusCode());
     }

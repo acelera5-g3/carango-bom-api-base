@@ -45,7 +45,7 @@ public class MarcaController {
     }
 
     @PostMapping()
-    @CacheEvict(value = "marcas", allEntries = true)
+    @CacheEvict(value = {"marcas", "dashboard"}, allEntries = true)
     @ApiOperation("Cadastra uma nova marca")
     public ResponseEntity<MarcaDto> cadastrarMarca(@Valid @RequestBody MarcaDto request, UriComponentsBuilder uriBuilder) {
         MarcaDto marca = service.salvar(request);
@@ -54,14 +54,14 @@ public class MarcaController {
     }
 
     @PutMapping("{id}")
-    @CacheEvict(value = "marcas", allEntries = true)
+    @CacheEvict(value ={"marcas", "dashboard"}, allEntries = true)
     @ApiOperation("Atualiza uma marca")
     public ResponseEntity<MarcaDto> atualizarMarca(@PathVariable Long id, @Valid @RequestBody MarcaDto request) {
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
-    @CacheEvict(value = "marcas", allEntries = true)
+    @CacheEvict(value ={"marcas", "dashboard"}, allEntries = true)
     @ApiOperation("Remove uma marca")
     public ResponseEntity<MarcaDto> apagarMarca(@PathVariable Long id) {
         return ResponseEntity.ok(service.apagar(id));
