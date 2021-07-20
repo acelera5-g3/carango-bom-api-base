@@ -1,15 +1,18 @@
 package br.com.caelum.carangobom.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -25,4 +28,7 @@ public class Marca {
     @Column
     @NotBlank
     private String nome;
+
+    @OneToMany(mappedBy = "marca")
+    private Set<Veiculo> veiculos;
 }

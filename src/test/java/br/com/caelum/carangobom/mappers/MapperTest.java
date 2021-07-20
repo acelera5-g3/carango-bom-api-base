@@ -32,7 +32,7 @@ class MapperTest {
         mappers = List.of(
                 new TestMapper(
                         MarcaMapper.INSTANCE,
-                        new Marca(1L, "TESTE"),
+                        new Marca(1L, "TESTE", null),
                         new MarcaDto(1L, "TESTE")
                         ),
                 new TestMapper(
@@ -42,7 +42,7 @@ class MapperTest {
                 ),
                 new TestMapper(
                         VeiculoMapper.INSTANCE,
-                        new Veiculo(1L,"MODELO", 2021,20000L, new Marca(1L, "TESTE")),
+                        new Veiculo(1L,"MODELO", 2021,20000L, new Marca(1L, "TESTE", null)),
                         new VeiculoDto(1L,"MODELO", 2021,20000L, new MarcaDto(1L, "TESTE"))
                 ),
                 new TestMapper(
