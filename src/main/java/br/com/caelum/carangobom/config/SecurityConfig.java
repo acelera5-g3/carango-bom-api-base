@@ -1,9 +1,9 @@
 package br.com.caelum.carangobom.config;
 
 import br.com.caelum.carangobom.controllers.AutenticacaoViaTokenFilter;
+import br.com.caelum.carangobom.repositories.UsuarioRepository;
 import br.com.caelum.carangobom.services.AutenticacaoService;
 import br.com.caelum.carangobom.services.TokenService;
-import br.com.caelum.carangobom.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @Configuration
@@ -51,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/validar").permitAll()
                 .antMatchers(HttpMethod.GET, "/marcas").permitAll()
                 .antMatchers(HttpMethod.GET, "/veiculos").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuarios").permitAll()
