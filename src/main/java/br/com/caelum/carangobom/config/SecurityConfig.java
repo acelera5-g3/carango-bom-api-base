@@ -60,13 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
-
     // Configs de autenticação
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
