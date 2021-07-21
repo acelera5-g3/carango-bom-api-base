@@ -6,6 +6,7 @@ import br.com.caelum.carangobom.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -41,6 +42,7 @@ public class UsuarioService implements IService<UsuarioDto> {
 
     @Override
     public UsuarioDto salvar(UsuarioDto dto) {
+        dto.setSenha(senhaEncrypt(dto.getSenha()));
         return mapper.entityToDto(repository.save(mapper.dtoToEntity(dto)));
     }
 
@@ -56,5 +58,9 @@ public class UsuarioService implements IService<UsuarioDto> {
         UsuarioDto usuario = this.buscar(id);
         repository.delete(mapper.dtoToEntity(usuario));
         return usuario;
+    }
+
+    private String senhaEncrypt(String senha) {
+        return new BCryptPasswordEncoder().encode(senha);
     }
 }
