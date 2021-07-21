@@ -41,4 +41,12 @@ public class AutenticacaoController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
+
+    @PostMapping("/validar")
+    public ResponseEntity<TokenDto> validar(@RequestBody @Valid TokenDto token) {
+        if (tokenService.isTokenValido(token.getToken())) {
+            return ResponseEntity.ok(token);
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
 }

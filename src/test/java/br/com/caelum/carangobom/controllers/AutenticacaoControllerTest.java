@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -59,6 +61,24 @@ class AutenticacaoControllerTest {
 
         ResponseEntity<TokenDto> res = controller.autenticar(login);
 
+        assertEquals(HttpStatus.FORBIDDEN, res.getStatusCode());
+    }
+
+    @Test
+    void deveValidarToken() {
+        TokenDto token = mock(TokenDto.class);
+        when(token.getToken()).thenReturn("TEST");
+        when(tokenService.isTokenValido(anyString())).thenReturn(true);
+        ResponseEntity<TokenDto> res = controller.validar(token);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+    }
+
+    @Test
+    void naoDeveValidarToken() {
+        TokenDto token = mock(TokenDto.class);
+        when(token.getToken()).thenReturn("TEST");
+        when(tokenService.isTokenValido(anyString())).thenReturn(false);
+        ResponseEntity<TokenDto> res = controller.validar(token);
         assertEquals(HttpStatus.FORBIDDEN, res.getStatusCode());
     }
 }
