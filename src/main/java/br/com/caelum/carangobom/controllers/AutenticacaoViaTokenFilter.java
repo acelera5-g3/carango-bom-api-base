@@ -37,9 +37,6 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
             autenticarCliente(token);
         }
 
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-
         filterChain.doFilter(request, response);
     }
 
