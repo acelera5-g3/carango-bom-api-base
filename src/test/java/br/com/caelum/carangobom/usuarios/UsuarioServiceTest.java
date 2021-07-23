@@ -1,83 +1,76 @@
-package br.com.caelum.carangobom.marca;
+package br.com.caelum.carangobom.usuarios;
 
-import br.com.caelum.carangobom.dtos.MarcaDto;
-import br.com.caelum.carangobom.entities.Marca;
-import br.com.caelum.carangobom.mappers.MarcaMapper;
-import br.com.caelum.carangobom.repositories.MarcaRepository;
-import br.com.caelum.carangobom.services.MarcaService;
+import br.com.caelum.carangobom.dtos.UsuarioDto;
+import br.com.caelum.carangobom.entities.Usuario;
+import br.com.caelum.carangobom.mappers.UsuarioMapper;
+import br.com.caelum.carangobom.repositories.UsuarioRepository;
+import br.com.caelum.carangobom.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-@ContextConfiguration
-class MarcaServiceTest {
+class UsuarioServiceTest {
 
     @Mock
-    private MarcaRepository repository;
+    UsuarioRepository repository;
 
     @Mock
-    private MarcaMapper mapper;
+    UsuarioMapper mapper;
 
+    UsuarioService service;
 
-    private MarcaService service;
-
-    MarcaDto dto;
-    Marca entity;
-
+    UsuarioDto dto;
+    Usuario entity;
 
     @BeforeEach
     public void setup() {
         openMocks(this);
 
-        service = new MarcaService(
+        service = new UsuarioService(
                 repository,
                 mapper
         );
 
-        dto = new MarcaDto(1L, "TESTE");
-        entity = new Marca(1L, "TESTE", null);
+        dto = new UsuarioDto(1L, "teste@teste.com", "s3nh4");
+        entity = new Usuario(1L, "teste@teste.com", "s3nh4", null);
 
-        when(mapper.entityToDto(any(Marca.class))).thenReturn(dto);
-        when(mapper.dtoToEntity(any(MarcaDto.class))).thenReturn(entity);
+        List<UsuarioDto> dtos = List.of(dto);
 
-        List<MarcaDto> dtos = List.of(new MarcaDto(1L, "TESTE"));
-
+        when(mapper.entityToDto(any(Usuario.class))).thenReturn(dto);
+        when(mapper.dtoToEntity(any(UsuarioDto.class))).thenReturn(entity);
         when(mapper.entitiesToDtos(anyList())).thenReturn(dtos);
     }
 
     @Test
-    void deveBuscarUmaMarca() {
+    void deveBuscarUmUsuario() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(entity));
-
-        MarcaDto response = service.buscar(1L);
-
-        assertEquals(entity.getId(), response.getId());
+        UsuarioDto resposta = service.buscar(1L);
+        assertEquals(entity.getId(), resposta.getId());
     }
 
     @Test
-    void deveFalharAoBuscarUmaMarca() throws EntityNotFoundException {
+    void deveFalharAoBuscarUmUsuario() throws EntityNotFoundException {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
-
         assertThrows(EntityNotFoundException.class, () -> service.buscar(1L));
     }
 
     @Test
-    void deveBuscarTodasAsMarcas() {
+    void deveBuscarTodosOsUsuarios() {
         @SuppressWarnings("unchecked")
-        Page<Marca> list = mock(Page.class);
+        Page<Usuario> list = mock(Page.class);
 
         when(repository.findAll(any(Pageable.class))).thenReturn(list);
 
@@ -89,19 +82,18 @@ class MarcaServiceTest {
     }
 
     @Test
-    void deveSalvarUmaMarca() {
-        when(repository.save(any(Marca.class))).thenReturn(entity);
+    void deveSalvarUmUsuario() {
+        when(repository.save(any(Usuario.class))).thenReturn(entity);
 
-        MarcaDto res = service.salvar(dto);
+        UsuarioDto res = service.salvar(dto);
 
         assertEquals(entity.getId(), res.getId());
     }
 
     @Test
-    void deveAtualizarUmaMarca() {
-
+    void deveAtualizarUmUsuario() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(entity));
-        when(repository.save(any(Marca.class))).thenReturn(entity);
+        when(repository.save(any(Usuario.class))).thenReturn(entity);
 
         service.atualizar(1L, dto);
 
@@ -109,15 +101,12 @@ class MarcaServiceTest {
     }
 
     @Test
-    void deveApagarUmaMarca() {
-
+    void deveApagarUmUsuario() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(entity));
-
-        doNothing().when(repository).delete(any(Marca.class));
+        doNothing().when(repository).delete(any(Usuario.class));
 
         service.apagar(1L);
 
         verify(repository).delete(entity);
-
     }
 }

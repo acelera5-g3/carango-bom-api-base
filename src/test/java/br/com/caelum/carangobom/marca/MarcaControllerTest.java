@@ -1,6 +1,8 @@
 package br.com.caelum.carangobom.marca;
 
-import br.com.caelum.carangobom.marca.dtos.MarcaDto;
+import br.com.caelum.carangobom.controllers.MarcaController;
+import br.com.caelum.carangobom.dtos.MarcaDto;
+import br.com.caelum.carangobom.services.MarcaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
