@@ -37,7 +37,7 @@ jobs:
       - name: Heroku Login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku login
+        run: heroku auth:login
       - name: Heroku Container Login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
