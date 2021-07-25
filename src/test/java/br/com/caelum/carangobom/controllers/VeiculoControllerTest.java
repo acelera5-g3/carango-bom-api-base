@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.veiculo;
+package br.com.caelum.carangobom.controllers;
 
 import br.com.caelum.carangobom.controllers.VeiculoController;
 import br.com.caelum.carangobom.dtos.MarcaDto;

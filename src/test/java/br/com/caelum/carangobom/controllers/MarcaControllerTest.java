@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.marca;
+package br.com.caelum.carangobom.controllers;
 
 import br.com.caelum.carangobom.controllers.MarcaController;
 import br.com.caelum.carangobom.dtos.MarcaDto;

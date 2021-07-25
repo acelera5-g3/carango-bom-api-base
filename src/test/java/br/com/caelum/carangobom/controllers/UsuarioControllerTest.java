@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.usuarios;
+package br.com.caelum.carangobom.controllers;
 
 import br.com.caelum.carangobom.controllers.UsuarioController;
 import br.com.caelum.carangobom.dtos.UsuarioDto;
