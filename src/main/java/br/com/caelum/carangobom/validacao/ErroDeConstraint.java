@@ -12,7 +12,6 @@ public class ErroDeConstraint {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public String validacao(DataIntegrityViolationException e) {
-        // TODO: Melhorar erro retornado
         return "Violação de constraint no banco!";
     }
 }

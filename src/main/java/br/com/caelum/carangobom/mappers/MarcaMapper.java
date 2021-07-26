@@ -8,6 +8,9 @@ import org.mapstruct.factory.Mappers;
 @Mapper(
         componentModel = "spring"
 )
-public interface MarcaMapper extends IMapper<MarcaDto, Marca> {
+public interface MarcaMapper {
     MarcaMapper INSTANCE = Mappers.getMapper( MarcaMapper.class );
+    MarcaDto entityToDto(Marca entity);
+    Marca dtoToEntity(MarcaDto dto);
+    Iterable<MarcaDto> entitiesToDtos(Iterable<Marca> entities);
 }

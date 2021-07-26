@@ -8,6 +8,9 @@ import org.mapstruct.factory.Mappers;
 @Mapper(
         componentModel = "spring"
 )
-public interface VeiculoMapper extends IMapper<VeiculoDto, Veiculo> {
+public interface VeiculoMapper {
     VeiculoMapper INSTANCE = Mappers.getMapper(VeiculoMapper.class);
+    VeiculoDto entityToDto(Veiculo entity);
+    Veiculo dtoToEntity(VeiculoDto dto);
+    Iterable<VeiculoDto> entitiesToDtos(Iterable<Veiculo> entities);
 }

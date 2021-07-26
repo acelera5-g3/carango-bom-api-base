@@ -8,6 +8,9 @@ import org.mapstruct.factory.Mappers;
 @Mapper(
         componentModel = "spring"
 )
-public interface UsuarioMapper extends IMapper<UsuarioDto, Usuario> {
+public interface UsuarioMapper {
     UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
+    UsuarioDto entityToDto(Usuario entity);
+    Usuario dtoToEntity(UsuarioDto dto);
+    Iterable<UsuarioDto> entitiesToDtos(Iterable<Usuario> entities);
 }

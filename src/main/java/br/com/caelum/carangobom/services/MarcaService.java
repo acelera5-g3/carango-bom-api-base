@@ -53,7 +53,6 @@ public class MarcaService implements IService<MarcaDto> {
 
     @Override
     public MarcaDto apagar(Long id) throws EntityNotFoundException {
-        // TODO: deve ser possível excluir uma marca que possui veículos cadastrados? Onde colocar essa regra?
         MarcaDto marca = this.buscar(id);
         repository.delete(mapper.dtoToEntity(marca));
         return marca;
