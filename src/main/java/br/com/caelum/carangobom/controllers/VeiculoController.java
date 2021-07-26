@@ -45,7 +45,7 @@ public class VeiculoController {
     }
 
     @PostMapping()
-    @CacheEvict(value = "veiculos", allEntries = true)
+    @CacheEvict(value = {"veiculos", "dashboard"}, allEntries = true)
     @ApiOperation("Cadastra um novo veículo")
     public ResponseEntity<VeiculoDto> cadastrarVeiculo(@Valid @RequestBody VeiculoDto request, UriComponentsBuilder uriBuilder) {
         VeiculoDto veiculo = service.salvar(request);
@@ -54,14 +54,14 @@ public class VeiculoController {
     }
 
     @PutMapping("{id}")
-    @CacheEvict(value = "veiculos", allEntries = true)
+    @CacheEvict(value = {"veiculos", "dashboard"}, allEntries = true)
     @ApiOperation("Atualiza um veículo")
     public ResponseEntity<VeiculoDto> atualizarVeiculo(@PathVariable Long id, @Valid @RequestBody VeiculoDto request) {
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
-    @CacheEvict(value = "veiculos", allEntries = true)
+    @CacheEvict(value = {"veiculos", "dashboard"}, allEntries = true)
     @ApiOperation("Remove um veiculo")
     public ResponseEntity<VeiculoDto> apagarVeiculo(@PathVariable Long id) {
         return ResponseEntity.ok(service.apagar(id));
